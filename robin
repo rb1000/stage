@@ -1,0 +1,34 @@
+#!/bin/bash
+echo "$(tput setaf 2)R$(tput setaf 3)o$(tput setaf 4$)b$(tput setaf 5)i$(tput setaf 6)n $(tput setaf 2)gebruik -h voor de help pagina"
+while test $# -gt 0; do
+        case "$1" in
+                -h|--help)
+                        echo "$(tput sgr 2)Robin Bartol - Help Page "
+                        echo "options:"
+                        echo "-h, --help                show brief help"
+                        echo "-w, --weer                Laat het weer zien"
+                        echo "-i, --IP                  Weergeeft je ipv4 address"
+                        echo "-r, --running             Laat zien welke processen momenteel op het systeem draaien"
+                        echo "-t, --temperatuur         Laat zien wat de temperatuur van de CPU is"
+                        exit 0
+                        ;;
+                -i|--IP)
+                        echo "$(tput sgr 2)IP:" `ip address list | grep "inet " | grep -v 127.0.0 | cut -d " " -f 6 | cut -d "/" -f 1`
+                        exit 0
+                        ;;
+                -w|--weer)
+                        echo "$(tput sgr 2)Het weer in Leek:" `curl -s "http://rss.accuweather.com/rss/liveweather_rss.asp?metric=1&locCode=EUR|NL|NL007|LEEK" | sed -n '/Currently:/ s/.*: \(.*\): \([0-9]*\)\([CF]\).*/\2°\3, \1/p'`
+                        exit 0
+                        ;;
+                -r|--running)
+                        echo "$(tput sgr 2)Processen running:" `ps ax | wc -l | tr -d " "`
+                        exit 0
+                        ;;
+                -t|--temperatuur)
+                echo "$(tput sgr 2)" $(sudo /opt/vc/bin/vcgencmd measure_temp)
+                exit 0
+                ;;
+
+        esac
+done
+
