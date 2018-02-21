@@ -1,4 +1,4 @@
-# Maak een veriabel genaamd = Balance
+# Maak een variabel genaamd = Balance
 balance = -10
 
 # Als Balance onder is Print(bericht)
